@@ -2,7 +2,7 @@
 
 API REST para un sistema empresarial de control de inventario. Gestiona activos, usuarios y cuentas, y expone autenticación mediante tokens JWT.
 
-> Este repositorio contiene el backend ASP.NET. La experiencia web se encuentra en [FrontInventario](https://github.com/itzlala/FrontInventario).
+> Este repositorio contiene el backend ASP.NET. La experiencia web se encuentra en [nexo-inventory-web](https://github.com/itzlala/nexo-inventory-web).
 
 ## Capacidades
 
