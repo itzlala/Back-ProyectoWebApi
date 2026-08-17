@@ -2,9 +2,11 @@
 using System.Web.Http;
 using WebApi.Data;
 using WebApi.Models;
+using WebApi.Security;
 
 namespace WebApi.Controllers
 {
+    [InventoryAuthorize]
     public class InventarioController : ApiController
     {
         // GET: Inventario

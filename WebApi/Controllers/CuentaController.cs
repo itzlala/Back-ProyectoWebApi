@@ -6,21 +6,36 @@ using System.Net.Http;
 using System.Web.Http;
 using WebApi.Data;
 using WebApi.Models;
+using WebApi.Security;
 
 namespace WebApi.Controllers
 {
+    [InventoryAuthorize]
     public class CuentaController : ApiController
     {
         // GET api/<controller>
-        public List<Cuentas> Get()
+        public IEnumerable<AccountSummary> Get()
         {
-            return CuentaData.ListarCue();
+            return CuentaData.ListarCue().Select(cuenta => new AccountSummary
+            {
+                IdCuenta = cuenta.IdCuenta,
+                Usuario = cuenta.Usuario,
+                FechaRegistro = cuenta.FechaRegistro
+            });
         }
 
         // GET api/<controller>/5
-        public Cuentas Get(int id)
+        public IHttpActionResult Get(int id)
         {
-            return CuentaData.ObtenerCue(id);
+            var cuenta = CuentaData.ObtenerCue(id);
+            if (cuenta == null || cuenta.IdCuenta == 0) return NotFound();
+
+            return Ok(new AccountSummary
+            {
+                IdCuenta = cuenta.IdCuenta,
+                Usuario = cuenta.Usuario,
+                FechaRegistro = cuenta.FechaRegistro
+            });
         }
 
         // POST api/<controller>
