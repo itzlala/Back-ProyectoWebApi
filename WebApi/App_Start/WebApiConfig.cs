@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Configuration;
 
 namespace WebApi
 {
@@ -10,7 +11,8 @@ namespace WebApi
     {
         public static void Register(HttpConfiguration config)
         {
-            var cors = new EnableCorsAttribute("*", "*", "*");
+            var allowedOrigin = ConfigurationManager.AppSettings["AllowedOrigin"] ?? "http://localhost:4200";
+            var cors = new EnableCorsAttribute(allowedOrigin, "Authorization,Content-Type", "GET,POST,PUT,DELETE,OPTIONS");
             config.EnableCors(cors);
 
             // Rutas de API web

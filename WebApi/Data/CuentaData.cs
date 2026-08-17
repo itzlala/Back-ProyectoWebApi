@@ -5,11 +5,42 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using WebApi.Models;
+using System.Text;
 
 namespace WebApi.Data
 {
     public class CuentaData
     {
+        public static Cuentas Autenticar(string usuario, string contrasenia)
+        {
+            if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrEmpty(contrasenia))
+            {
+                return null;
+            }
+
+            var cuenta = ListarCue().FirstOrDefault(item =>
+                string.Equals(item.Usuario, usuario.Trim(), StringComparison.OrdinalIgnoreCase));
+
+            return cuenta != null && ComparacionSegura(cuenta.Contrasenia, contrasenia)
+                ? cuenta
+                : null;
+        }
+
+        private static bool ComparacionSegura(string valorGuardado, string valorRecibido)
+        {
+            var izquierda = Encoding.UTF8.GetBytes(valorGuardado ?? string.Empty);
+            var derecha = Encoding.UTF8.GetBytes(valorRecibido ?? string.Empty);
+            if (izquierda.Length != derecha.Length) return false;
+
+            var diferencia = 0;
+            for (var indice = 0; indice < izquierda.Length; indice++)
+            {
+                diferencia |= izquierda[indice] ^ derecha[indice];
+            }
+
+            return diferencia == 0;
+        }
+
         public static bool RegistrarCue(Cuentas oCuenta)
         {
             using (SqlConnection oConexion = new SqlConnection(Conexion.rutaConexion))

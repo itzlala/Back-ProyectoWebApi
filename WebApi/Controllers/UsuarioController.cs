@@ -6,9 +6,11 @@ using System.Net.Http;
 using System.Web.Http;
 using WebApi.Data;
 using WebApi.Models;
+using WebApi.Security;
 
 namespace WebApi.Controllers
 {
+    [InventoryAuthorize]
     public class UsuarioController : ApiController
     {
         // GET api/<controller>
